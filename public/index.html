@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>查看你的信息</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f9fafb, #e5e7eb);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      margin: 20px;
+      color: #111827;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 12px;
+      width: 90%;
+      max-width: 800px;
+      margin-bottom: 40px;
+    }
+    .btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 15px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #2563eb;
+    }
+    footer {
+      position: fixed;
+      bottom: 20px;
+      text-align: center;
+    }
+    input[type=password] {
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    .confirm-btn {
+      background: #10b981;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .confirm-btn:hover {
+      background: #059669;
+    }
+  </style>
+</head>
+<body>
+  <h1>查看你的信息</h1>
+
+  <div class="grid" id="navGrid"></div>
+
+  <footer>
+    <span>请输入密码查看 Nodes 信息：</span>
+    <input type="password" id="passwordInput" placeholder="输入密码">
+    <button class="confirm-btn" id="confirmBtn">确认</button>
+    <p id="msg" style="color:red;"></p>
+  </footer>
+
+  <script>
+    const navGrid = document.getElementById('navGrid');
+    // 24 个按钮，从环境变量中获取（Cloudflare Pages会替换）
+    const names = [
+      "$N1", "$N2", "$N3", "$N4", "$N5", "$N6", "$N7", "$N8",
+      "$N9", "$N10", "$N11", "$N12", "$N13", "$N14", "$N15", "$N16",
+      "$N17", "$N18", "$N19", "$N20", "$N21", "$N22", "$N23", "$N24"
+    ];
+    const links = [
+      "$NAV1", "$NAV2", "$NAV3", "$NAV4", "$NAV5", "$NAV6", "$NAV7", "$NAV8",
+      "$NAV9", "$NAV10", "$NAV11", "$NAV12", "$NAV13", "$NAV14", "$NAV15", "$NAV16",
+      "$NAV17", "$NAV18", "$NAV19", "$NAV20", "$NAV21", "$NAV22", "$NAV23", "$NAV24"
+    ];
+
+    names.forEach((n, i) => {
+      if (n && n !== "$" + "N" + (i+1)) {
+        const btn = document.createElement('button');
+        btn.className = 'btn';
+        btn.textContent = n;
+        btn.onclick = () => window.open(links[i], '_blank');
+        navGrid.appendChild(btn);
+      }
+    });
+
+    const correctPassword = "$PASSWORD"; // 由Cloudflare替换
+    document.getElementById('confirmBtn').addEventListener('click', () => {
+      const input = document.getElementById('passwordInput').value.trim();
+      const msg = document.getElementById('msg');
+      if (input === correctPassword) {
+        window.location.href = `/${correctPassword}`;
+      } else {
+        msg.textContent = '密码错误，请重试。';
+      }
+    });
+  </script>
+</body>
+</html>
