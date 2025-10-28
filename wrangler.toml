@@ -1,0 +1,7 @@
+name = "info-viewer"
+main = "functions"
+compatibility_date = "2025-10-01"
+
+[[kv_namespaces]]
+binding = "MY_KV"
+id = "your_kv_id_here"
